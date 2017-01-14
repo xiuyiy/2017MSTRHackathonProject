@@ -1,0 +1,21 @@
+.info_text
+{
+    font-size: 0.8em;
+    font-weight: 200;
+    color: #444649;
+    font-family: Verdana, Geneva, sans-serif;
+}
+.info_user_text
+{
+    font-size: 0.8em;
+    font-weight: 600;
+    color: #444649;
+    font-family: Verdana, Geneva, sans-serif;
+}
+.info_date_text
+{
+    font-size: 0.8em;
+    font-weight: 100;
+    color: gray;
+    font-family: Verdana, Geneva, sans-serif;
+}

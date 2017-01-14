@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="swell">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--<script src="//cdn.zoomcharts-cloud.com/1/latest/zoomcharts.js"></script>-->
+    <!--<script src="net.js"></script>-->
+    <link rel="stylesheet" href="style.css" />
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <!--Bootstrap js-->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript">
+        var ZoomChartsLicense = "ZCS-dkrx970m6: ZoomCharts 30 day free trial development licence xiu..@..l.com (valid for evaluation only); upgrades until: 2017-02-05";
+        var ZoomChartsLicenseKey = "0e3c0faaad3f4a10c106ade7ebf2d444107900cf082b2b9d42" +
+                "6b7fa7a829d8fdf5225031d85e7297bb8ab69a7c7b05728ae0ebcd93c8eeef0ba9168e1999551" +
+                "86acfdfc2b81ab9f080519521bb3f13c4696d14eb1426385cc3dc400e6d80f92a989408192dae" +
+                "4f5cac9ed0e4b7f3ce78efffadf2e0c29d00e3f3f0b2b75cc16135d5debe763d99b584fda3c2e" +
+                "17d0db469599b2e21eae94a170dd6ee984c191bce54184c65ce8ffe9589c7ec40c7a733f91812" +
+                "7c2abdd33d6e8781840790c253341d741bf218cdafd5eebd65868607d199bd7779581c608d132" +
+                "a632b51a527fabbe83fb04c4fe98d880d8d74a4737584ad12080fbf38103598af1b4477a19eeb";
+    </script>
+    <script src="https://cdn.zoomcharts-cloud.com/1/latest/zoomcharts.js"
+            type="text/javascript">var ZoomChartsLicense = "ZCS-dkrx970m6: ZoomCharts 30 day free trial development licence xiu..@..l.com (valid for evaluation only); upgrades until: 2017-02-05";
+    var ZoomChartsLicenseKey = "0e3c0faaad3f4a10c106ade7ebf2d444107900cf082b2b9d42" +
+            "6b7fa7a829d8fdf5225031d85e7297bb8ab69a7c7b05728ae0ebcd93c8eeef0ba9168e1999551" +
+            "86acfdfc2b81ab9f080519521bb3f13c4696d14eb1426385cc3dc400e6d80f92a989408192dae" +
+            "4f5cac9ed0e4b7f3ce78efffadf2e0c29d00e3f3f0b2b75cc16135d5debe763d99b584fda3c2e" +
+            "17d0db469599b2e21eae94a170dd6ee984c191bce54184c65ce8ffe9589c7ec40c7a733f91812" +
+            "7c2abdd33d6e8781840790c253341d741bf218cdafd5eebd65868607d199bd7779581c608d132" +
+            "a632b51a527fabbe83fb04c4fe98d880d8d74a4737584ad12080fbf38103598af1b4477a19eeb";</script>
+    <!--<script src ="app.js"></script>-->
+</head>
+<body ng-controller="generalInfoCtrl" id="body">
+
+<div id="wrapper" style="height:600px; width:100%;">
+  <div id="left">
+                <div id="demo"></div>
+  </div>
+  <div id="right" hidden="true">
+                <!--GENERAL INFO-->
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><img src="Info.png" style="width:12px;height:12px;"> GENERAL INFORMATION</h3>
+                    </div>
+                    <div class="panel-body info">
+                        <table class="info_text">
+                            <tbody class="panel-body">
+                                <tr>
+                                    <td class = "col-sm-1">Name </td>
+                                    <td>{{generalInfo.name}}</td>
+                                </tr>
+                                <tr>
+                                    <td class = "col-sm-1">Owner</td>
+                                    <td>{{generalInfo.owner}}</td>
+                                </tr>
+                                <tr>
+                                    <td class = "col-sm-1">ID </td>
+                                    <td>{{generalInfo.object_id}}</td>
+                                </tr>
+                                <tr>
+                                    <td class = "col-sm-1">Type</td>
+                                    <td>{{generalInfo.type}}</td>
+                                </tr>
+                                <tr>
+                                    <td class = "col-sm-1">Status </td>
+                                    <td>{{generalInfo.status}}</td>
+                                </tr>
+                                <tr ng-if="generalInfo.status === 'Ready to open'">
+                                    <td class = "col-sm-1">Duration </td>
+                                    <td>{{generalInfo.duration | number:0}} ms</td>
+                                </tr>
+                                <tr ng-if="generalInfo.status === 'Failed to open last time'">
+                                    <td class = "col-sm-1">Error </td>
+                                    <td>{{"Some Error"}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!--RECENT ACTIVITIES-->
+
+                        <div class="panel-heading">
+                             <h3 class="panel-title"><img src="Activities.png" style="width:12px;height:12px;"> ACTIVITIES</h3>
+                        </div>
+                        <div class="panel-body activities">
+                            <table>
+                                <tbody class="pre-scrollable">
+                                    <tr ng-repeat="item in operations" style="overflow-y: scroll;">
+                                        <td><td class="info_user_text col-sm-1"><img ng-src={{item.userIcon}} style="width:20px;height:20px;"></td>
+                                        <td class="info_user_text col"> {{item.user_name}}</td>
+                                        <td class="info_text col-sm-5"> {{translateOperation(item.change_type)}} it</td>
+                                        <td class="info_date_text col-sm-12 text-right"> {{item.date | date:'MMM dd, yyyy'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    <!--SUGGESTED DOSSIERS-->
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><img src="heart.png" style="width:12px;height:12px;"> YOU MAY ALSO BE INTERESTED IN</h3>
+                        </div>
+                        <div class="panel-body interested">
+                            <table>
+                                <tbody  class="info_text col-sm-4"ng-repeat="item in suggestions" style="float:left">
+                                <tr><td><image style="width:90px; height:60px;"ng-src={{item.imageURL}} ng-dblclick='openDossier(item.object_id, item.name)'></image></td></tr>
+                                    <tr>
+                                        <td >{{item.name}}</td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+  </div>
+  <div class="clear"></div>
+</div>
+
+
+<!--<div id="grid"></div>-->
+<!--//document.getElementById("grid").innerHTML = "";-->
+<script type="text/javascript">
+    var chart;
+    var a;
+    var userId = "3D7E628140B041CE1F9F65BF417E2997";
+    var clickedObj;
+    var object_info;
+    var dossier_relationships = [];
+    var dossiers = [];
+    var reports = [];
+    var server = "http://10.22.11.12:3000/";
+//    var server_address = "http://10.22.11.12:3000/relationships.js";
+    var server_address = server + "relationships.js";
+    var dossierInfoURL = server + "/getObjectDetail";
+    var window_width = 1077;
+    var window_height = 675;
+
+    $(function () {
+        $.ajax({
+            method: "GET",
+            dataType: 'jsonp',
+            crossDomain: true,
+            // url: "relationship.js",
+            url: server_address,
+            done: function (msg) {
+            },
+            error: function () {
+                plot();
+            }
+        });
+    })
+
+    function getTop3Dossiers(dossiers) {
+        var top3 = [];
+        for (var i = 0; i < 3 && i < dossiers.length; i++) {
+            var currEntry = dossiers[i];
+            top3.push(currEntry.object_id);
+        }
+        console.log(top3[0]);
+        return top3;
+    }
+
+    //function to filter the data to feed the chart
+    function prepareObject(dossiers, reports) {
+
+        var result = [];
+        for (var i = 0; i < dossiers.length; i++) {
+            var currEntry = dossiers[i];
+            var name = currEntry.name;
+            var did = currEntry.object_id;
+            var weight = currEntry.weight;
+            var status = currEntry.status;
+            var entry = {
+                id: did,
+                type: "dossier",
+                loaded: true,
+                name: name,
+                weight: weight,
+                status: status
+            }
+            result.push(entry);
+        }
+
+        for (var i = 0; i < reports.length; i++) {
+            var currEntry = reports[i];
+            var id = currEntry.object_id;
+            var name = currEntry.name;
+            var status = currEntry.status;
+            var entry = {
+                id: id,
+                type: "dataSet",
+                loaded: true,
+                name: name,
+                status: status
+            }
+            result.push(entry);
+        }
+        return result;
+    }
+
+    function prepareRelationship(relationship, dossiers) {
+        var links = [];
+        for (var i = 0; i < relationship.length; i++) {
+            var currEntry = relationship[i];
+            //dossier ID
+            var from = currEntry.object_id;
+            //dataSet ID
+            var to = currEntry.depn_objid;
+            var entry = {
+                from: from,
+                to: to
+            };
+            links.push(entry);
+        }
+        for (var j = 0; j < 10 && j < dossiers.length; j++) {
+            var currDossier = dossiers[j];
+            var to = currDossier.object_id;
+            var entry = {
+                from: "u1",
+                to: to
+            };
+            links.push(entry);
+
+        }
+        return links;
+    }
+
+    function plot() {
+        var nodes = prepareObject(dossiers, reports);
+        var links = prepareRelationship(dossier_relationships, dossiers);
+        var userNode = {
+            loaded: true,
+            id: "u1",
+            type: "user"
+        };
+        nodes.push(userNode);
+        var temp = {
+            from: "u1",
+            to: "20044F4711E6D3B710C60080AF714204"
+        };
+        var top3Dossiers = getTop3Dossiers(dossiers);
+        var fdata = {
+            preloaded: {
+                nodes: nodes,
+                links: links
+            }
+        };
+
+        chart = new NetChart({
+            container: document.getElementById("demo"),
+            // area: { height: 350 },
+            // area: { top: 0, bottom: 0, left: 0 },
+            data: fdata,
+//            data: {url: fdata},
+            navigation: {
+                mode: "focusnodes",
+                focusNodeExpansionRadius: 2,
+                numberOfFocusNodes: 1,
+                expandOnClick: true,
+                initialNodes: ["u1"]//top3Dossiers[0]
+//                initialNodes: ["078317FA437448F32CCFC5B7056C7B84"]
+            },
+            style: {
+                nodeStyleFunction: nodeStyle,
+                linkStyleFunction: linkStyle
+            },
+            events: {
+                onClick: function (event) {
+                    // debugger;
+//                    if (event.clickItem && event.clickItem.text && event.clickItem.text.indexOf("Age:") === 0) {
+//                        alert("You clicked on the Age item.");
+//                    }
+                    show_detail_panel(event.clickNode);
+                    if (event.clickNode) {
+                        clickedObj = event.clickNode.data;
+//                        console.log(event.clickNode.data);
+                        $(function () {
+                            $.ajax({
+                                method: "GET",
+                                dataType: 'jsonp',
+                                crossDomain: true,
+                                data: {
+                                    "object_id": event.clickNode.data.id,
+                                    "user_id": userId
+                                },
+                                // url: "objectInfo.js",
+                                url: dossierInfoURL,
+                                done: function (msg) {
+                                    console.log("done");
+                                }, success: function (response) {
+                                    console.log("send success");
+                                },
+                                error: function (xhr) {
+                                    angular.element($("#body")).scope().setGeneralInfo();
+                                }
+                            });
+                        })
+
+                    }
+                },
+                onDoubleClick: function (event) {
+                    if (event.clickNode != undefined) {
+                        if (typeof workstation !== 'undefined' && event.clickNode.data.type == "dossier") {
+                            workstation.open_dossier_by_id(event.clickNode.data.id, event.clickNode.data.name)
+                        };
+                    };
+                }
+            }
+        });
+
+        updateSize(true)
+        // chart.updateSettings({height:650, width:1100});
+
+        function nodeStyle(node) {
+            var image = null;
+            var sliceSize = 239;
+            if (node.data.type == "dossier") {
+                image = "Dossier_white.png";
+                if (node.data.status == true) {
+                    node.fillColor = "#388fe2";
+                } else if (node.data.status == false) {
+                    node.fillColor = "gray";
+                } else {
+                    node.fillColor = "white";
+                    image = "Dossier_black.png";
+                }
+                node.label = node.data.name;
+                node.radius = 30 + node.data.weight * 3;
+                var sliceNo = (node.data.foreign) ? 1 : 0;
+
+                node.imageSlicing = [0, sliceNo * sliceSize, sliceSize, sliceSize];
+            }
+            else if (node.data.type == "user") {
+                image = "user.png";
+                node.label = "user";
+                var sliceNo = (node.data.foreign) ? 1 : 0;
+                // var sliceSize = 239;
+                node.imageSlicing = [0, sliceNo * sliceSize, sliceSize, sliceSize];
+            }
+            else {
+                image = "Dataset_white.png";
+                if (node.data.status == true) {
+                    node.fillColor = "#388fe2";
+                } else if (node.data.status == false) {
+                    node.fillColor = "gray";
+                } else {
+                    node.fillColor = "white";
+                    image = "Dataset_black.png";
+                }
+                node.label = "user";
+                node.radius = 20;
+                var sliceNo = (node.data.foreign) ? 1 : 0;
+                // var sliceSize = 239;
+                node.imageSlicing = [0, sliceNo * sliceSize, sliceSize, sliceSize];
+            }
+            node.image = image;
+            return;
+        }
+
+        function linkStyle(link) {
+//        if (link.data.type == "share") {
+//            link.fillColor = "limegreen";
+//            link.label = (link.data.shares_perc * 100).toFixed(0) + "%";
+//            link.radius = 2;
+//        } else {
+//            link.fillColor = "lightgray";
+//            link.radius = 1;
+//        }
+            if (link.data.from === "u1") {
+                link.fillColor = "#CECECE";
+                link.radius = 0.5;
+            } else {
+                link.fillColor = "#CECECE";
+                link.radius = 1;
+            }
+        }
+    }
+
+    function show_detail_panel(clickedNode) {
+        // debugger;
+        if (clickedNode == undefined) {
+            $("#right").fadeOut();
+        }
+        else {
+            $("#right").fadeIn();
+        }
+    };
+
+    function updateSize(fullscreen) {
+        width = window_width * 0.54;
+        height = window_height
+        chart.updateSettings({height: height, width: width});
+    };
+
+    var swell = angular.module("swell", []);
+    swell.controller("generalInfoCtrl", function ($scope) {
+        $scope.generalInfo = null;
+        $scope.operations = null;
+        $scope.suggestions = null;
+        //operation info passed from the clicked Node
+        var passedOperations = null;
+
+        $scope.setGeneralInfo = function () {
+            //general information panel
+            $scope.generalInfo = object_info;
+            $scope.generalInfo.type = clickedObj.type === "dataSet" ? "Dataset" : "Dossier";
+            var currStatus = clickedObj.status;
+            if (currStatus === null) {
+                $scope.generalInfo.status = "NA";
+            } else if (currStatus === true) {
+                $scope.generalInfo.status = "Ready to open";
+            } else {
+                $scope.generalInfo.status = "Failed to open last time";
+            }
+
+            //recent activities
+            passedOperations = object_info.operations;
+            $scope.operations = passedOperations;
+//            debugger;
+//            $scope.operations.operationType = translateOperation(passedOperations.change_type);
+
+            $scope.suggestions = object_info.suggest_objects;
+            for(var i=0;i<object_info.suggest_objects.length;i++){
+                $scope.suggestions[i].imageURL = getRandomDossierPic();
+            }
+
+            for(var j=0;j<passedOperations.length;j++){
+                // debugger;
+                $scope.operations[j].userIcon = matchUserIcon(passedOperations[j].user_id);
+            }
+            $scope.$apply();
+        }
+
+        $scope.translateOperation = function (change_type) {
+            // debugger;
+            if (change_type) {
+                if (change_type === "open") {
+                    return "viewed";
+                } else if (change_type === "change") {
+                    return "modified";
+                } else {
+                    return "created";
+                }
+            }
+        }
+
+        var matchUserIcon = function(userId){
+            if(userId){
+                if(userId==="53CC63B644BE50F44A7AAD8F7C5AA8DD"){
+                    return "user.png";
+                }else if(userId ==="267724554EAB3EA381D373A4BC4D3698"){
+                    return "img1.png";
+                }else if(userId ==="3D7E628140B041CE1F9F65BF417E2997"){
+                    return "img2.png";
+                }else if(userId ==="B432CA6B476942399D070EA26FD82A87"){
+                    return "img3.png";
+                }else if(userId ==="E914A5504B8EE2E2B991C380B797606C"){
+                    return "img4.png";
+                }else if(userId ==="FA9D0BDA4C72085C266034BB7C7E0A10"){
+                    return "img5.png";
+                }else if(userId ==="16EA02394AA659827DAA8E88414E53FD"){
+                    return "img6.png";
+                }else{
+                    return "img7.png";
+                }
+            }
+        }
+
+        var getRandomDossierPic = function () {
+            // debugger;
+            var imageURL=null;
+            var n = Math.floor((Math.random() * 6) + 1);
+            if(n>=1&&n<=3||n==5||n==6){
+                imageURL = "dossier"+n+".jpeg";
+            }else{
+                imageURL = "dossier"+n+".png";
+            }
+            return imageURL;
+        }
+//        $scope.getRandomSpan = function(){
+//            return Math.floor((Math.random()*6)+1);
+//        }
+        $scope.openDossier = function(dossierId , dossierName){
+            if (typeof workstation !== 'undefined') {
+                workstation.open_dossier_by_id(dossierId, dossierName);
+            };
+        }
+    });
+</script>
+
+</body>
+
+
+</html>

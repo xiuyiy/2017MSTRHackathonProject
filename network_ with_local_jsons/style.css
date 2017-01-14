@@ -1,0 +1,52 @@
+.info_text
+{
+    font-size: 0.8em;
+    font-weight: 200;
+    color: #444649;
+    font-family: Verdana, Geneva, sans-serif;
+}
+.info_user_text
+{
+    font-size: 0.8em;
+    font-weight: 600;
+    color: #444649;
+    font-family: Verdana, Geneva, sans-serif;
+}
+.info_date_text
+{
+    font-size: 0.8em;
+    font-weight: 100;
+    color: gray;
+    font-family: Verdana, Geneva, sans-serif;
+}
+
+.panel-info {
+    height: 600px;
+}
+
+.panel-info .info {
+    height: 25%;
+}
+
+.panel-info .activities {
+    max-height: 50%;
+    overflow-y: scroll;
+}
+
+.panel-info .interested {
+    height: 25%;
+}
+
+#left {
+    width: 65%;
+    float: left;
+}
+
+#right {
+    width: 35%;
+    float: right;
+}
+
+.clear {
+    clear: both;
+}
